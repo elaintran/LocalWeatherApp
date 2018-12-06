@@ -5,6 +5,7 @@ var fahrenheit = document.querySelector(".fahrenheit");
 var time = document.querySelector(".time");
 var description = document.querySelector(".description");
 var humidity = document.querySelector(".humidity");
+var wind = document.querySelector(".wind");
 
 window.onload = function() {
 	getLocation();
@@ -22,18 +23,23 @@ function getLocation() {
 }
 
 function showPosition(position) {
-	var weatherAPI = "https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
+	var weatherAPI = "http://api.openweathermap.org/data/2.5/forecast?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&APPID=aefa70f2536d1ba79bb2d9f090f4817b";
 	$.getJSON(weatherAPI, function(data) {
 		console.log(data);
 		//degree round to whole number
-		celsius.innerHTML = Math.round(data.main.temp) + "&#176;C";
-		fahrenheit.innerHTML = Math.round(data.main.temp * 9 / 5 + 32) + "&#176;F";
-		place.innerHTML = data.name + ", " + data.sys.country;
-		var weatherDescription = data.weather["0"].description;
+		//celsius.innerHTML = Math.round(data.main.temp) + "&#176;C";
+		//convert Kelvins to Fahrenheit
+		var fahrenheitNumber = Math.round(((data.list["0"].main.temp) - 273.15) * 9 / 5 + 32);
+		fahrenheit.innerHTML = fahrenheitNumber + "<sup class='degree'>&#176;</sup>";
+		place.innerHTML = data.city.name + ", " + data.city.country;
+		var weatherDescription = data.list["0"].weather["0"].description;
 		//capitalize first letter of every word in description
 		var newWeatherDescription = weatherDescription.split(" ").map((eachWord) => eachWord.charAt(0).toUpperCase() + eachWord.slice(1)).join(" ");
 		description.innerHTML = newWeatherDescription;
-		humidity.innerHTML = data.main.humidity + "% Humidity";
+		/*humidity.innerHTML = "Humidity: " + data.list["0"].main.humidity + "%";
+		//need to convert
+		var windNumber = Math.round(data.list["0"].wind.speed + 2.237);
+		wind.innerHTML = "Wind: " + windNumber + " mph";*/
 	});
 }
 
