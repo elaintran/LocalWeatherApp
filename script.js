@@ -1,9 +1,10 @@
-const myGeolocation = document.querySelector(".geolocation");
-const place = document.querySelector(".place");
-const celsius = document.querySelector(".celsius");
-const fahrenheit = document.querySelector(".fahrenheit");
-const time = document.querySelector(".time");
-const description = document.querySelector(".description");
+var myGeolocation = document.querySelector(".geolocation");
+var place = document.querySelector(".place");
+var celsius = document.querySelector(".celsius");
+var fahrenheit = document.querySelector(".fahrenheit");
+var time = document.querySelector(".time");
+var description = document.querySelector(".description");
+var humidity = document.querySelector(".humidity");
 
 window.onload = function() {
 	getLocation();
@@ -21,15 +22,18 @@ function getLocation() {
 }
 
 function showPosition(position) {
-	const weatherAPI = "https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
+	var weatherAPI = "https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
 	$.getJSON(weatherAPI, function(data) {
 		console.log(data);
+		//degree round to whole number
 		celsius.innerHTML = Math.round(data.main.temp) + "&#176;C";
 		fahrenheit.innerHTML = Math.round(data.main.temp * 9 / 5 + 32) + "&#176;F";
 		place.innerHTML = data.name + ", " + data.sys.country;
 		var weatherDescription = data.weather["0"].description;
+		//capitalize first letter of every word in description
 		var newWeatherDescription = weatherDescription.split(" ").map((eachWord) => eachWord.charAt(0).toUpperCase() + eachWord.slice(1)).join(" ");
 		description.innerHTML = newWeatherDescription;
+		humidity.innerHTML = data.main.humidity + "% Humidity";
 	});
 }
 
@@ -49,7 +53,7 @@ function getTime() {
 		var ampm = " AM";
 	}
 	if (currentTime.getMinutes() < 10) {
-		const newMinutes = "0" + currentTime.getMinutes();
+		var newMinutes = "0" + currentTime.getMinutes();
 		time.innerHTML = "Today, " + newHours + ":" + newMinutes + " " + ampm;
 	}
 	else {
