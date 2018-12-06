@@ -3,6 +3,7 @@ const place = document.querySelector(".place");
 const celsius = document.querySelector(".celsius");
 const fahrenheit = document.querySelector(".fahrenheit");
 const time = document.querySelector(".time");
+const description = document.querySelector(".description");
 
 window.onload = function() {
 	getLocation();
@@ -24,8 +25,11 @@ function showPosition(position) {
 	$.getJSON(weatherAPI, function(data) {
 		console.log(data);
 		celsius.innerHTML = Math.round(data.main.temp) + "&#176;C";
-		fahrenheit.innerHTML = Math.round(data.main.temp) * 9 / 5 + 32 + "&#176;F";
+		fahrenheit.innerHTML = Math.round(data.main.temp * 9 / 5 + 32) + "&#176;F";
 		place.innerHTML = data.name + ", " + data.sys.country;
+		var weatherDescription = data.weather["0"].description;
+		var newWeatherDescription = weatherDescription.split(" ").map((eachWord) => eachWord.charAt(0).toUpperCase() + eachWord.slice(1)).join(" ");
+		description.innerHTML = newWeatherDescription;
 	});
 }
 
