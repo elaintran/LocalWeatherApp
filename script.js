@@ -2,9 +2,11 @@ const myGeolocation = document.querySelector(".geolocation");
 const place = document.querySelector(".place");
 const celsius = document.querySelector(".celsius");
 const fahrenheit = document.querySelector(".fahrenheit");
+const time = document.querySelector(".time");
 
 window.onload = function() {
 	getLocation();
+	getTime();
 }
 
 //gets geolocation
@@ -25,4 +27,28 @@ function showPosition(position) {
 		fahrenheit.innerHTML = Math.round(data.main.temp) * 9 / 5 + 32 + "&#176;F";
 		place.innerHTML = data.name + ", " + data.sys.country;
 	});
+}
+
+const currentTime = new Date();
+
+function getTime() {
+	if (currentTime.getHours() > 12) {
+		var newHours = currentTime.getHours() - 12;
+	}
+	else {
+		var newHours = currentTime.getHours();
+	}
+	if (currentTime.getHours() >= 12) {
+		var ampm = " PM";
+	}
+	else {
+		var ampm = " AM";
+	}
+	if (currentTime.getMinutes() < 10) {
+		const newMinutes = "0" + currentTime.getMinutes();
+		time.innerHTML = "Today, " + newHours + ":" + newMinutes + " " + ampm;
+	}
+	else {
+		time.innerHTML = "Today, " + newHours + ":" + currentTime.getMinutes() + "" + ampm;
+	}
 }
