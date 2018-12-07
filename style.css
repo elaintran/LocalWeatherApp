@@ -96,3 +96,12 @@ ul {
 	background-color: rgba(255, 255, 255, 0.8);
 	border-radius: 10px;
 }
+
+.night-rain {
+	width: 100px;
+}
+
+.weather-icon, .fah {
+	display: inline-block;
+	width: 100%;
+}

@@ -8,12 +8,15 @@ var humidity = document.querySelector(".humidity");
 var wind = document.querySelector(".wind");
 var currentDate = document.querySelector(".current-date");
 var week = document.querySelector(".week");
+var weatherIcon = document.querySelector(".weather-icon");
+
+var nightRain = "images/night-rain.png";
 
 window.onload = function() {
 	getLocation();
 	//getTime();
 	todayDate();
-	weekDay();
+	//weekDay();
 }
 
 //gets geolocation
@@ -29,6 +32,9 @@ function getLocation() {
 function showPosition(position) {
 	var weatherAPI = "http://api.openweathermap.org/data/2.5/forecast?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&APPID=aefa70f2536d1ba79bb2d9f090f4817b";
 	$.getJSON(weatherAPI, function(data) {
+		if (data.list["0"].weather["0"].main == "Rain") {
+			weatherIcon.innerHTML = "<img src='" + nightRain + "' class='night-rain'>";
+		}
 		console.log(data);
 		//degree round to whole number
 		//celsius.innerHTML = Math.round(data.main.temp) + "&#176;C";
@@ -69,7 +75,7 @@ var monthList = ["January", "February", "March", "April", "May", "June",
 var dayList = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 var dayListShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-function weekDay() {
+/*function weekDay() {
 	var dateArray = [];
 	for (var z = 0; z < 4; z++) {
 		if (currentTime.getDay() !== z) {
@@ -77,7 +83,26 @@ function weekDay() {
 		}
 		console.log(dateArray);
 	}
-}
+}*/
+
+/*function weekDay() {
+	var dateArray = [];
+	var otherArray = [];
+	for (var z = 0; z < dayListShort.length; z++) {
+		if (currentTime.getDay() == z && z == 6) {
+
+			dateArray.push(dayListShort..);
+			//dateArray.push(dayListShort[z]);
+		}
+		else if (currentTime.getDay() == z) {
+		}
+		//console.log(dateArray);
+	}
+	for (var a = 0; a < 4; a++) {
+		var newDateArray = otherArray.push(dateArray[a]);
+	}
+	console.log(otherArray);
+}*/
 
 function todayDate() {
 	for (var x = 0; x < dayList.length; x++) {
