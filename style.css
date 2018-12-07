@@ -97,8 +97,8 @@ ul {
 	border-radius: 10px;
 }
 
-.night-rain, .day-rain {
-	width: 90px;
+.night, .day, .both {
+	width: 80px;
 }
 
 .col .night-rain {
@@ -117,4 +117,9 @@ ul {
 
 .week {
 	padding-top: 20px;
+}
+
+.weather-icon {
+	display: flex;
+	align-items: center;
 }

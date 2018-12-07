@@ -13,6 +13,13 @@ var weatherIcon = document.querySelector(".weather-icon");
 //weather icons
 var nightRain = "images/night-rain.png";
 var dayRain = "images/day-rain.png";
+var dayClear = "images/day-clear.png";
+var nightClear = "images/night-clear.png";
+var dayCloudy = "images/day-cloudy.png";
+var nightCloudy = "images/night-cloudy.png";
+var atmosphere = "images/atmosphere.png";
+var thunderstorm = "images/thunderstorm.png";
+var snow = "images/snow.png";
 
 window.onload = function() {
 	getLocation();
@@ -34,20 +41,49 @@ function getLocation() {
 function showPosition(position) {
 	var weatherAPI = "http://api.openweathermap.org/data/2.5/forecast?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&APPID=aefa70f2536d1ba79bb2d9f090f4817b";
 	var currentWeatherAPI = "https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
-	//current weather
-	$.getJSON(currentWeatherAPI, function(dayData) {
+	//today's weather
+	$.getJSON(currentWeatherAPI, function(todayData) {
+		//general info
+		place.innerHTML = todayData.name + ", " + todayData.sys.country;
+		var weatherDescription = todayData.weather["0"].description;
+		//capitalize first letter of every word in description
+		var newWeatherDescription = weatherDescription.split(" ").map((eachWord) => eachWord.charAt(0).toUpperCase() + eachWord.slice(1)).join(" ");
+		description.innerHTML = newWeatherDescription;
+		//night weather
 		if (currentTime.getHours() >= 18 && currentTime.getHours() <= 6) {
-			if (dayData.weather["0"].main == "Rain" || dayData.weather["0"].main == "Drizzle") {
-				weatherIcon.innerHTML = "<img src='" + nightRain + "' class='night-rain'>";
+			if (todayData.weather["0"].main == "Rain" || todayData.weather["0"].main == "Drizzle") {
+				weatherIcon.innerHTML = "<img src='" + nightRain + "' class='night'>";
 			}
+			else if (todayData.weather["0"].main == "Clear") {
+				weatherIcon.innerHTML = "<img src='" + nightClear + "' class='night'>";
+			}
+			else if (todayData.weather["0"].main == "Clouds") {
+				weatherIcon.innerHTML = "<img src='" + nightCloudy + "' class='night'>";	
+			}
+		//day weather
 		} else if (currentTime.getHours() <= 18 && currentTime.getHours() >= 6) {
-			if (dayData.weather["0"].main == "Rain" || dayData.weather["0"].main == "Drizzle") {
-				weatherIcon.innerHTML = "<img src='" + dayRain + "' class='day-rain'>";
+			if (todayData.weather["0"].main == "Rain" || todayData.weather["0"].main == "Drizzle") {
+				weatherIcon.innerHTML = "<img src='" + dayRain + "' class='day'>";
+			}
+			else if (todayData.weather["0"].main == "Clear") {
+				weatherIcon.innerHTML = "<img src='" + dayClear + "' class='day'>";
+			}
+			else if (todayData.weather["0"].main == "Clouds") {
+				weatherIcon.innerHTML = "<img src='" + dayCloudy + "' class='day'>";	
 			}
 		}
-		console.log(dayData);
-		fahrenheit.innerHTML = Math.round(dayData.main.temp * 9 / 5 + 32) + "<sup class='degree'>&#176;</sup>";
-		humidity.innerHTML = "Humidity: " + dayData.main.humidity + "%";
+		//both weather
+		if (todayData.weather["0"].main == "Atmosphere") {
+			weatherIcon.innerHTML = "<img src='" + atmosphere + "' class='both'>";
+		} else if (todayData.weather["0"].main == "Thunderstorm") {
+			weatherIcon.innerHTML = "<img src='" + thunderstorm + "' class='both'>";
+		}
+		else if (todayData.weather["0"].main == "Snow") {
+			weatherIcon.innerHTML = "<img src='" + snow + "' class='both'>";
+		}
+		console.log(todayData);
+		fahrenheit.innerHTML = Math.round(todayData.main.temp * 9 / 5 + 32) + "<sup class='degree'>&#176;</sup>";
+		humidity.innerHTML = "Humidity: " + todayData.main.humidity + "%";
 	});
 	//day by day weather
 	$.getJSON(weatherAPI, function(data) {
@@ -57,11 +93,6 @@ function showPosition(position) {
 		//convert Kelvins to Fahrenheit
 		//var fahrenheitNumber = Math.round(((data.list["0"].main.temp) - 273.15) * 9 / 5 + 32);
 		//fahrenheit.innerHTML = fahrenheitNumber + "<sup class='degree'>&#176;</sup>";
-		place.innerHTML = data.city.name + ", " + data.city.country;
-		var weatherDescription = data.list["0"].weather["0"].description;
-		//capitalize first letter of every word in description
-		var newWeatherDescription = weatherDescription.split(" ").map((eachWord) => eachWord.charAt(0).toUpperCase() + eachWord.slice(1)).join(" ");
-		description.innerHTML = newWeatherDescription;
 		//humidity.innerHTML = "Humidity: " + data.list["0"].main.humidity + "%";
 		//need to convert
 		var windNumber = Math.round(data.list["0"].wind.speed + 2.237);
