@@ -2,7 +2,7 @@ var myGeolocation = document.querySelector(".geolocation");
 var place = document.querySelector(".place");
 var celsius = document.querySelector(".celsius");
 var fahrenheit = document.querySelector(".fahrenheit");
-var time = document.querySelector(".time");
+//var time = document.querySelector(".time");
 var description = document.querySelector(".description");
 var humidity = document.querySelector(".humidity");
 var wind = document.querySelector(".wind");
@@ -10,7 +10,7 @@ var currentDate = document.querySelector(".current-date");
 
 window.onload = function() {
 	getLocation();
-	getTime();
+	//getTime();
 	todayDate();
 }
 
@@ -36,8 +36,8 @@ function showPosition(position) {
 		place.innerHTML = data.city.name + ", " + data.city.country;
 		var weatherDescription = data.list["0"].weather["0"].description;
 		//capitalize first letter of every word in description
-		//var newWeatherDescription = weatherDescription.split(" ").map((eachWord) => eachWord.charAt(0).toUpperCase() + eachWord.slice(1)).join(" ");
-		//description.innerHTML = newWeatherDescription;
+		var newWeatherDescription = weatherDescription.split(" ").map((eachWord) => eachWord.charAt(0).toUpperCase() + eachWord.slice(1)).join(" ");
+		description.innerHTML = newWeatherDescription;
 		humidity.innerHTML = "Humidity: " + data.list["0"].main.humidity + "%";
 		//need to convert
 		var windNumber = Math.round(data.list["0"].wind.speed + 2.237);
@@ -65,7 +65,8 @@ function todayDate() {
 	}
 }
 
-function getTime() {
+//gets current time
+/*function getTime() {
 	if (currentTime.getHours() > 12) {
 		var newHours = currentTime.getHours() - 12;
 	}
@@ -80,9 +81,9 @@ function getTime() {
 	}
 	if (currentTime.getMinutes() < 10) {
 		var newMinutes = "0" + currentTime.getMinutes();
-		time.innerHTML = "Today, " + newHours + ":" + newMinutes + " " + ampm;
+		time.innerHTML = newHours + ":" + newMinutes + " " + ampm;
 	}
 	else {
-		time.innerHTML = "Today, " + newHours + ":" + currentTime.getMinutes() + "" + ampm;
+		time.innerHTML = newHours + ":" + currentTime.getMinutes() + "" + ampm;
 	}
-}
+}*/

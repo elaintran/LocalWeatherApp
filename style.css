@@ -1,7 +1,12 @@
 html, body {
 	margin: 0;
 	padding: 0;
-	font-family: "Open Sans";
+	font-family: "Open Sans", sans-serif;
+	font-weight: 100;
+	background-color: #7f9ee9;
+  	background-image: linear-gradient(to bottom right, #354b74, #6080a6); 
+	color: white;
+	letter-spacing: 1px;
 }
 
 h1, h2, h3, h4 {
@@ -26,7 +31,7 @@ h4 {
 
 .center {
 	margin: auto;
-	padding: 0 50px;
+	padding: 50px;
 	display: table-cell;
 	/*vertical-align: middle;*/
 }
@@ -56,5 +61,13 @@ h1 {
 }
 
 .description {
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
+}
+
+.humidity, .wind {
+	color: #d5d5d5;
+}
+
+h4 {
+	font-weight: 300;
 }
