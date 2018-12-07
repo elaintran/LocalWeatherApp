@@ -10,7 +10,9 @@ var currentDate = document.querySelector(".current-date");
 var week = document.querySelector(".week");
 var weatherIcon = document.querySelector(".weather-icon");
 
+//weather icons
 var nightRain = "images/night-rain.png";
+var dayRain = "images/day-rain.png";
 
 window.onload = function() {
 	getLocation();
@@ -31,22 +33,36 @@ function getLocation() {
 
 function showPosition(position) {
 	var weatherAPI = "http://api.openweathermap.org/data/2.5/forecast?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&APPID=aefa70f2536d1ba79bb2d9f090f4817b";
-	$.getJSON(weatherAPI, function(data) {
-		if (data.list["0"].weather["0"].main == "Rain") {
-			weatherIcon.innerHTML = "<img src='" + nightRain + "' class='night-rain'>";
+	var currentWeatherAPI = "https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
+	//current weather
+	$.getJSON(currentWeatherAPI, function(dayData) {
+		if (currentTime.getHours() >= 18 && currentTime.getHours() <= 6) {
+			if (dayData.weather["0"].main == "Rain" || dayData.weather["0"].main == "Drizzle") {
+				weatherIcon.innerHTML = "<img src='" + nightRain + "' class='night-rain'>";
+			}
+		} else if (currentTime.getHours() <= 18 && currentTime.getHours() >= 6) {
+			if (dayData.weather["0"].main == "Rain" || dayData.weather["0"].main == "Drizzle") {
+				weatherIcon.innerHTML = "<img src='" + dayRain + "' class='day-rain'>";
+			}
 		}
+		console.log(dayData);
+		fahrenheit.innerHTML = Math.round(dayData.main.temp * 9 / 5 + 32) + "<sup class='degree'>&#176;</sup>";
+		humidity.innerHTML = "Humidity: " + dayData.main.humidity + "%";
+	});
+	//day by day weather
+	$.getJSON(weatherAPI, function(data) {
 		console.log(data);
 		//degree round to whole number
 		//celsius.innerHTML = Math.round(data.main.temp) + "&#176;C";
 		//convert Kelvins to Fahrenheit
-		var fahrenheitNumber = Math.round(((data.list["0"].main.temp) - 273.15) * 9 / 5 + 32);
-		fahrenheit.innerHTML = fahrenheitNumber + "<sup class='degree'>&#176;</sup>";
+		//var fahrenheitNumber = Math.round(((data.list["0"].main.temp) - 273.15) * 9 / 5 + 32);
+		//fahrenheit.innerHTML = fahrenheitNumber + "<sup class='degree'>&#176;</sup>";
 		place.innerHTML = data.city.name + ", " + data.city.country;
 		var weatherDescription = data.list["0"].weather["0"].description;
 		//capitalize first letter of every word in description
 		var newWeatherDescription = weatherDescription.split(" ").map((eachWord) => eachWord.charAt(0).toUpperCase() + eachWord.slice(1)).join(" ");
 		description.innerHTML = newWeatherDescription;
-		humidity.innerHTML = "Humidity: " + data.list["0"].main.humidity + "%";
+		//humidity.innerHTML = "Humidity: " + data.list["0"].main.humidity + "%";
 		//need to convert
 		var windNumber = Math.round(data.list["0"].wind.speed + 2.237);
 		wind.innerHTML = "Wind: " + windNumber + " mph";
@@ -58,8 +74,12 @@ function showPosition(position) {
 			$(".row").html("");
 			for (var y = 0; y < data.list.length; y++) {
 				if (data.list[y].dt_txt.substring(11) == "12:00:00") {
+					if (data.list[y].weather["0"].main == "Rain" || data.list[y].weather["0"].main == "Drizzle") {
+						var weekIcon = "<img src='" + nightRain + "' class='night-rain'>";
+						//console.log(data.list[1].weather[1].main);
+					}
 					var dailyTempF = Math.round(((data.list[y].main.temp) - 273.15) * 9 / 5 + 32);
-					$(".row").append("<div class='col'><h3 class='day'>" + dailyTempF + "&#176;</h3></div>");
+					$(".row").append("<div class='col'>" + weekIcon + "<h3 class='day'>" + dailyTempF + "&#176;</h3></div>");
 					console.log(data.list[y].main.temp);
 					//console.log(upcomingDate);
 				}

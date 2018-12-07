@@ -44,11 +44,11 @@ h4 {
 }
 
 .fahrenheit {
-	font-size: 80px;
+	font-size: 87px;
 }
 
 .fahrenheit sup {
-	font-size: 48px;
+	font-size: 52px;
 }
 
 h1 {
@@ -97,11 +97,24 @@ ul {
 	border-radius: 10px;
 }
 
-.night-rain {
-	width: 100px;
+.night-rain, .day-rain {
+	width: 90px;
 }
 
-.weather-icon, .fah {
-	display: inline-block;
-	width: 100%;
+.col .night-rain {
+	width: 50px;
+}
+
+.degree-container {
+	display: flex;
+	justify-content: center;
+	padding: 10px 0 0;
+}
+
+.fahrenheit {
+	padding-left: 15px;
+}
+
+.week {
+	padding-top: 20px;
 }
