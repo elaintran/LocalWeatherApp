@@ -10,7 +10,7 @@ html, body {
 }
 
 h1, h2, h3, h4 {
-	margin: 0;
+	margin: 5px;
 }
 
 h3 {
@@ -19,7 +19,6 @@ h3 {
 
 h4 {
 	font-size: 18px;
-	margin: 0;
 }
 
 .weather-container {
@@ -49,7 +48,7 @@ h4 {
 }
 
 .fahrenheit sup {
-	font-size: 43px;
+	font-size: 48px;
 }
 
 h1 {
@@ -61,13 +60,31 @@ h1 {
 }
 
 .description {
+	font-weight: bold;
 	/*text-transform: uppercase;*/
 }
 
 .humidity, .wind {
-	color: #d5d5d5;
+	color: #ededed;
+}
+
+.humidity {
+	margin-top: 10px;
 }
 
 h4 {
 	font-weight: 300;
+}
+
+ul {
+	padding: 0;
+}
+
+.row {
+	display: flex;
+}
+
+.col {
+	display: inline-block;
+	width: 100%;
 }

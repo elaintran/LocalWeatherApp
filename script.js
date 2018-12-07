@@ -7,6 +7,7 @@ var description = document.querySelector(".description");
 var humidity = document.querySelector(".humidity");
 var wind = document.querySelector(".wind");
 var currentDate = document.querySelector(".current-date");
+var week = document.querySelector(".week");
 
 window.onload = function() {
 	getLocation();
@@ -42,6 +43,23 @@ function showPosition(position) {
 		//need to convert
 		var windNumber = Math.round(data.list["0"].wind.speed + 2.237);
 		wind.innerHTML = "Wind: " + windNumber + " mph";
+		
+		getWeekDays();
+
+		//console.log(data.list.length);
+		//console.log(data.list["0"].dt_txt);
+		//console.log(data.list["0"].dt_txt.substring(10));
+		//console.log(data.list["0"])
+		function getWeekDays() {
+			$(".row").html("");
+			for (var y = 0; y < data.list.length; y++) {
+				if (data.list[y].dt_txt.substring(11) == "12:00:00") {
+					var dailyTemp = Math.round(((data.list[y].main.temp) - 273.15) * 9 / 5 + 32);
+					$(".row").append("<div class='col'><h3 class='day'>" + dailyTemp + "&#176;</h3></div>");
+					console.log(data.list[y].main.temp);
+				}
+			}
+		}
 	});
 }
 
