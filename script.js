@@ -6,10 +6,12 @@ var time = document.querySelector(".time");
 var description = document.querySelector(".description");
 var humidity = document.querySelector(".humidity");
 var wind = document.querySelector(".wind");
+var currentDate = document.querySelector(".current-date");
 
 window.onload = function() {
 	getLocation();
 	getTime();
+	todayDate();
 }
 
 //gets geolocation
@@ -34,16 +36,34 @@ function showPosition(position) {
 		place.innerHTML = data.city.name + ", " + data.city.country;
 		var weatherDescription = data.list["0"].weather["0"].description;
 		//capitalize first letter of every word in description
-		var newWeatherDescription = weatherDescription.split(" ").map((eachWord) => eachWord.charAt(0).toUpperCase() + eachWord.slice(1)).join(" ");
-		description.innerHTML = newWeatherDescription;
-		/*humidity.innerHTML = "Humidity: " + data.list["0"].main.humidity + "%";
+		//var newWeatherDescription = weatherDescription.split(" ").map((eachWord) => eachWord.charAt(0).toUpperCase() + eachWord.slice(1)).join(" ");
+		//description.innerHTML = newWeatherDescription;
+		humidity.innerHTML = "Humidity: " + data.list["0"].main.humidity + "%";
 		//need to convert
 		var windNumber = Math.round(data.list["0"].wind.speed + 2.237);
-		wind.innerHTML = "Wind: " + windNumber + " mph";*/
+		wind.innerHTML = "Wind: " + windNumber + " mph";
 	});
 }
 
-const currentTime = new Date();
+var currentTime = new Date();
+
+var monthList = ["January", "February", "March", "April", "May", "June",
+				"July", "August", "September", "October", "November", "December"];
+var dayList = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+
+function todayDate() {
+	for (var x = 0; x < dayList.length; x++) {
+		if (currentTime.getDate() == x) {
+			var dateString = dayList[x];
+		}
+	}
+	for (var i = 0; i < monthList.length; i++) {
+		if (currentTime.getMonth() == i) {
+			dateString += ", " + monthList[i] + " " + currentTime.getDate() + ", " + currentTime.getFullYear();
+			currentDate.innerHTML = dateString;
+		}
+	}
+}
 
 function getTime() {
 	if (currentTime.getHours() > 12) {
