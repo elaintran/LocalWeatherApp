@@ -53,39 +53,56 @@ function showPosition(position) {
 		humidity.innerHTML = "Humidity: " + todayData.main.humidity + "%";
 		
 		//night weather
+		var todayWeather = todayData.weather["0"].main;
 		if (currentTime.getHours() >= 18 && currentTime.getHours() <= 6) {
-			if (todayData.weather["0"].main == "Rain" || todayData.weather["0"].main == "Drizzle") {
-				weatherIcon.innerHTML = "<img src='" + nightRain + "' class='night'>";
-			}
-			else if (todayData.weather["0"].main == "Clear") {
-				weatherIcon.innerHTML = "<img src='" + nightClear + "' class='night'>";
-			}
-			else if (todayData.weather["0"].main == "Clouds") {
-				weatherIcon.innerHTML = "<img src='" + nightCloudy + "' class='night'>";	
+			switch (todayWeather) {
+				case "Rain":
+				case "Drizzle":
+					weatherIcon.innerHTML = "<img src='" + nightRain + "' class='night'>";
+					break;
+				case "Clear":
+					weatherIcon.innerHTML = "<img src='" + nightClear + "' class='night'>";
+					break;
+				case "Clouds":
+					weatherIcon.innerHTML = "<img src='" + nightCloudy + "' class='night'>";
+					break;
+				default:
+					weatherIcon.innerHTML = "<img src='' class='night'>";
 			}
 		//day weather
 		} else if (currentTime.getHours() <= 18 && currentTime.getHours() >= 6) {
-			if (todayData.weather["0"].main == "Rain" || todayData.weather["0"].main == "Drizzle") {
-				weatherIcon.innerHTML = "<img src='" + dayRain + "' class='day'>";
-			}
-			else if (todayData.weather["0"].main == "Clear") {
-				weatherIcon.innerHTML = "<img src='" + dayClear + "' class='day'>";
-			}
-			else if (todayData.weather["0"].main == "Clouds") {
-				weatherIcon.innerHTML = "<img src='" + dayCloudy + "' class='day'>";	
+			switch (todayWeather) {
+				case "Rain":
+				case "Drizzle":
+					weatherIcon.innerHTML = "<img src='" + dayRain + "' class='day'>";
+					break;
+				case "Clear":
+					weatherIcon.innerHTML = "<img src='" + dayClear + "' class='day'>";
+					break;
+				case "Clouds":
+					weatherIcon.innerHTML = "<img src='" + dayCloudy + "' class='day'>";
+					break;
+				default:
+					weatherIcon.innerHTML = "<img src='' class='day'>";
 			}
 		}
 		//both weather
-		if (todayData.weather["0"].main == "Atmosphere") {
-			weatherIcon.innerHTML = "<img src='" + atmosphere + "' class='both'>";
-		} else if (todayData.weather["0"].main == "Thunderstorm") {
-			weatherIcon.innerHTML = "<img src='" + thunderstorm + "' class='both'>";
-		}
-		else if (todayData.weather["0"].main == "Snow") {
-			weatherIcon.innerHTML = "<img src='" + snow + "' class='both'>";
+		switch(todayWeather) {
+			case "Atmosphere":
+				weatherIcon.innerHTML = "<img src='" + atmosphere + "' class='both'>";
+				break;
+			case "Thunderstorm":
+				weatherIcon.innerHTML = "<img src='" + thunderstorm + "' class='both'>";
+				break;
+			case "Snow":
+				weatherIcon.innerHTML = "<img src='" + snow + "' class='both'>";
+				break;
+			default:
+				weatherIcon.innerHTML = "<img src='' class='both'>";
 		}
 		console.log(todayData);
 	});
+	
 	//day by day weather
 	$.getJSON(weatherAPI, function(weekData) {
 		console.log(weekData);
@@ -99,26 +116,31 @@ function showPosition(position) {
 			$(".row").html("");
 			for (var y = 0; y < weekData.list.length; y++) {
 				if (weekData.list[y].dt_txt.substring(11) == "12:00:00") {
-					if (weekData.list[y].weather["0"].main == "Rain" || weekData.list[y].weather["0"].main == "Drizzle") {
-						var weekIcon = "<img src='" + dayRain + "' class='weekly'>";
-					}
-					else if (weekData.list[y].weather["0"].main == "Clear") {
-						var weekIcon = "<img src='" + dayRain + "' class='weekly'>";
-					}
-					else if (weekData.list[y].weather["0"].main == "Clouds") {
-						var weekIcon = "<img src='" + dayCloudy + "' class='weekly'>";
-					}
-					else if (weekData.list[y].weather["0"].main == "Atmosphere") {
-						var weekIcon = "<img src='" + atmosphere + "' class='weekly'>";
-					}
-					else if (weekData.list[y].weather["0"].main == "Thunderstorm") {
-						var weekIcon = "<img src='" + thunderstorm + "' class='weekly'>";
-					}
-					else if (weekData.list[y].weather["0"].main == "Snow") {
-						var weekIcon = "<img src='" + snow + "' class='weekly'>";
+					var checkWeekWeather = weekData.list[y].weather["0"].main;
+					switch (checkWeekWeather) {
+						case "Rain":
+							var weekIcon = "<img src='" + dayRain + "' class='weekly'>";
+							break;
+						case "Clear":
+							var weekIcon = "<img src='" + dayClear + "' class='weekly'>";
+							break;
+						case "Clouds":
+							var weekIcon = "<img src='" + dayCloudy + "' class='weekly'>";
+							break;
+						case "Atmosphere":
+							var weekIcon = "<img src='" + atmosphere + "' class='weekly'>";
+							break;
+						case "Thunderstorm":
+							var weekIcon = "<img src='" + thunderstorm + "' class='weekly'>";
+							break;
+						case "Snow":
+							var weekIcon = "<img src='" + snow + "' class='weekly'>";
+							break;
+						default:
+							var weekIcon = "<img src='' class='weekly'>";
 					}
 					var dailyTempF = Math.round(((weekData.list[y].main.temp) - 273.15) * 9 / 5 + 32);
-					$(".row").append("<div class='col'>" + weekIcon + "<h3 class='weeklyday'>" + dailyTempF + "&#176;</h3></div>");
+					$(".row").append("<div class='col day-" + y + "'>" + weekIcon + "<h3 class='weekly-temp'>" + dailyTempF + "&#176;</h3></div>");
 					//console.log(upcomingDate);
 				}
 			}
