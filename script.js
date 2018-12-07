@@ -13,6 +13,7 @@ window.onload = function() {
 	getLocation();
 	//getTime();
 	todayDate();
+	weekDay();
 }
 
 //gets geolocation
@@ -46,17 +47,15 @@ function showPosition(position) {
 		
 		getWeekDays();
 
-		//console.log(data.list.length);
-		//console.log(data.list["0"].dt_txt);
-		//console.log(data.list["0"].dt_txt.substring(10));
-		//console.log(data.list["0"])
 		function getWeekDays() {
+			//weekDay();
 			$(".row").html("");
 			for (var y = 0; y < data.list.length; y++) {
 				if (data.list[y].dt_txt.substring(11) == "12:00:00") {
-					var dailyTemp = Math.round(((data.list[y].main.temp) - 273.15) * 9 / 5 + 32);
-					$(".row").append("<div class='col'><h3 class='day'>" + dailyTemp + "&#176;</h3></div>");
+					var dailyTempF = Math.round(((data.list[y].main.temp) - 273.15) * 9 / 5 + 32);
+					$(".row").append("<div class='col'><h3 class='day'>" + dailyTempF + "&#176;</h3></div>");
 					console.log(data.list[y].main.temp);
+					//console.log(upcomingDate);
 				}
 			}
 		}
@@ -67,11 +66,22 @@ var currentTime = new Date();
 
 var monthList = ["January", "February", "March", "April", "May", "June",
 				"July", "August", "September", "October", "November", "December"];
-var dayList = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+var dayList = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+var dayListShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+function weekDay() {
+	var dateArray = [];
+	for (var z = 0; z < 4; z++) {
+		if (currentTime.getDay() !== z) {
+			dateArray.push(dayListShort[z]);
+		}
+		console.log(dateArray);
+	}
+}
 
 function todayDate() {
 	for (var x = 0; x < dayList.length; x++) {
-		if (currentTime.getDate() == x) {
+		if (currentTime.getDay() == x) {
 			var dateString = dayList[x];
 		}
 	}

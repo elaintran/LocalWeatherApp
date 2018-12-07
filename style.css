@@ -82,9 +82,17 @@ ul {
 
 .row {
 	display: flex;
+	color: #2f456e;
 }
 
 .col {
+	margin: 10px;
 	display: inline-block;
 	width: 100%;
+}
+
+.col {
+	padding: 10px;
+	background-color: rgba(255, 255, 255, 0.8);
+	border-radius: 10px;
 }
