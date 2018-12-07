@@ -49,6 +49,9 @@ function showPosition(position) {
 		//capitalize first letter of every word in description
 		var newWeatherDescription = weatherDescription.split(" ").map((eachWord) => eachWord.charAt(0).toUpperCase() + eachWord.slice(1)).join(" ");
 		description.innerHTML = newWeatherDescription;
+		fahrenheit.innerHTML = Math.round(todayData.main.temp * 9 / 5 + 32) + "<sup class='degree'>&#176;</sup>";
+		humidity.innerHTML = "Humidity: " + todayData.main.humidity + "%";
+		
 		//night weather
 		if (currentTime.getHours() >= 18 && currentTime.getHours() <= 6) {
 			if (todayData.weather["0"].main == "Rain" || todayData.weather["0"].main == "Drizzle") {
@@ -82,20 +85,11 @@ function showPosition(position) {
 			weatherIcon.innerHTML = "<img src='" + snow + "' class='both'>";
 		}
 		console.log(todayData);
-		fahrenheit.innerHTML = Math.round(todayData.main.temp * 9 / 5 + 32) + "<sup class='degree'>&#176;</sup>";
-		humidity.innerHTML = "Humidity: " + todayData.main.humidity + "%";
 	});
 	//day by day weather
-	$.getJSON(weatherAPI, function(data) {
-		console.log(data);
-		//degree round to whole number
-		//celsius.innerHTML = Math.round(data.main.temp) + "&#176;C";
-		//convert Kelvins to Fahrenheit
-		//var fahrenheitNumber = Math.round(((data.list["0"].main.temp) - 273.15) * 9 / 5 + 32);
-		//fahrenheit.innerHTML = fahrenheitNumber + "<sup class='degree'>&#176;</sup>";
-		//humidity.innerHTML = "Humidity: " + data.list["0"].main.humidity + "%";
-		//need to convert
-		var windNumber = Math.round(data.list["0"].wind.speed + 2.237);
+	$.getJSON(weatherAPI, function(weekData) {
+		console.log(weekData);
+		var windNumber = Math.round(weekData.list["0"].wind.speed + 2.237);
 		wind.innerHTML = "Wind: " + windNumber + " mph";
 		
 		getWeekDays();
@@ -103,15 +97,28 @@ function showPosition(position) {
 		function getWeekDays() {
 			//weekDay();
 			$(".row").html("");
-			for (var y = 0; y < data.list.length; y++) {
-				if (data.list[y].dt_txt.substring(11) == "12:00:00") {
-					if (data.list[y].weather["0"].main == "Rain" || data.list[y].weather["0"].main == "Drizzle") {
-						var weekIcon = "<img src='" + nightRain + "' class='night-rain'>";
-						//console.log(data.list[1].weather[1].main);
+			for (var y = 0; y < weekData.list.length; y++) {
+				if (weekData.list[y].dt_txt.substring(11) == "12:00:00") {
+					if (weekData.list[y].weather["0"].main == "Rain" || weekData.list[y].weather["0"].main == "Drizzle") {
+						var weekIcon = "<img src='" + dayRain + "' class='weekly'>";
 					}
-					var dailyTempF = Math.round(((data.list[y].main.temp) - 273.15) * 9 / 5 + 32);
-					$(".row").append("<div class='col'>" + weekIcon + "<h3 class='day'>" + dailyTempF + "&#176;</h3></div>");
-					console.log(data.list[y].main.temp);
+					else if (weekData.list[y].weather["0"].main == "Clear") {
+						var weekIcon = "<img src='" + dayRain + "' class='weekly'>";
+					}
+					else if (weekData.list[y].weather["0"].main == "Clouds") {
+						var weekIcon = "<img src='" + dayCloudy + "' class='weekly'>";
+					}
+					else if (weekData.list[y].weather["0"].main == "Atmosphere") {
+						var weekIcon = "<img src='" + atmosphere + "' class='weekly'>";
+					}
+					else if (weekData.list[y].weather["0"].main == "Thunderstorm") {
+						var weekIcon = "<img src='" + thunderstorm + "' class='weekly'>";
+					}
+					else if (weekData.list[y].weather["0"].main == "Snow") {
+						var weekIcon = "<img src='" + snow + "' class='weekly'>";
+					}
+					var dailyTempF = Math.round(((weekData.list[y].main.temp) - 273.15) * 9 / 5 + 32);
+					$(".row").append("<div class='col'>" + weekIcon + "<h3 class='weeklyday'>" + dailyTempF + "&#176;</h3></div>");
 					//console.log(upcomingDate);
 				}
 			}
