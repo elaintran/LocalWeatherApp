@@ -117,14 +117,14 @@ function showPosition(position) {
 
 		function getWeekDays() {
 			//weekDay();
-			$(".row").html("");
+			$(".week").html("");
 			for (var y = 0; y < weekData.list.length; y++) {
 				var checkDate = new Date(weekData.list[y].dt * 1000);
 				var dateString = checkDate.toString();
 				//var timeString = dateString.substring(16, 18);
 				//console.log(test);
 				if (dateString.substring(16, 18) == 12) {
-					var dayListShort = dateString.substring(0,4);
+					var dayListShort = dateString.substring(0,3);
 					var checkWeekWeather = weekData.list[y].weather["0"].main;
 					switch (checkWeekWeather) {
 						case "Rain":
@@ -148,9 +148,34 @@ function showPosition(position) {
 						default:
 							var weekIcon = "<img src='' class='weekly'>";
 					}
+					switch (dayListShort) {
+						case "Sun":
+							var dayName = "Sunday";
+							break;
+						case "Mon":
+							var dayName = "Monday";
+							break;
+						case "Tue":
+							var dayName = "Tuesday";
+							break;
+						case "Wed":
+							var dayName = "Wednesday";
+							break;
+						case "Thu":
+							var dayName = "Thursday";
+							break;
+						case "Fri":
+							var dayName = "Friday";
+							break;
+						case "Sat":
+							var dayName = "Saturday";
+							break;
+						default:
+							var dayName = "";
+					}
 					var dailyTempF = Math.round(weekData.list[y].main.temp);
 					//var dailyTempF = Math.round(((weekData.list[y].main.temp) - 273.15) * 9 / 5 + 32);
-					$(".row").append("<div class='col'><h4 class='day-list'>" + dayListShort + "</h4>" + weekIcon + "<h4 class='weekly-temp'>" + dailyTempF + "&#176;</h4></div>");
+					$(".week").append("<div class='col'><h4 class='day-list'>" + dayName + "</h4>" + weekIcon + "<h4 class='weekly-temp'>" + dailyTempF + "&#176;</h4></div>");
 					//console.log(upcomingDate);
 				}
 			}

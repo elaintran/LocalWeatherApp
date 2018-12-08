@@ -4,7 +4,7 @@ html, body {
 	font-family: "Open Sans", sans-serif;
 	font-weight: 100;
 	background-color: #7f9ee9;
-  	background-image: linear-gradient(to bottom right, #354b74, #6080a6); 
+  	background-image: linear-gradient(to bottom left, #6080a6, #354b74); 
 	color: white;
 	letter-spacing: 1px;
 }
@@ -33,16 +33,6 @@ h4 {
 	/*padding-top: 8%;*/
 	display: table-cell;
 	vertical-align: middle;
-}
-
-.today {
-	height: 70%;
-}
-
-.row {
-	height: 30%;
-	align-items: center;
-	background-color: rgba(255, 255, 255, 0.8);
 }
 
 .place {
@@ -91,12 +81,11 @@ ul {
 }
 
 .row {
+	/*background-color: rgba(255, 255, 255, 0.8);*/
 	display: flex;
-	color: #2f456e;
+	/*color: #2f456e;*/
 	margin: 0;
-	position: absolute;
 	width: 100%;
-	bottom: 0;
 }
 
 .col {
@@ -104,9 +93,6 @@ ul {
 	width: 100%;
 }
 
-.col {
-	padding: 10px;
-}
 
 .night, .day, .both {
 	width: 80px;
@@ -127,7 +113,9 @@ ul {
 }
 
 .week {
-	padding-top: 20px;
+	display: flex;
+	align-items: center;
+	margin: auto;
 }
 
 .weather-icon {
@@ -136,6 +124,24 @@ ul {
 }
 
 .day-list, .weekly-temp {
-	text-transform: uppercase;
 	font-weight: bold;
+}
+
+.search-bar {
+	width: 100%;
+	background-color: #1f2b43;
+	height: 50px;
+	position: absolute;
+}
+
+.today {
+	padding-top: 30px;
+}
+
+.col {
+	padding: 20px;
+	margin: 40px 10px 0px;
+	background-color: rgba(255, 255, 255, 0.2);
+	border-radius: 10px;
+	width: 150px;
 }
