@@ -36,12 +36,17 @@ function submitInput(event) {
 	if (searchLocation.length = 0) {
 		return false;
 	}
+	runSearch(searchLocation);
 }
 
 function runSearch(searchInput) {
-	//if searchInput has numbers - check for numbers
-	if (searchInput ) {
-		var inputAPI = todayAPI +  
+	//if searchInput has 5 numbers
+	//var checkZip = /\d/g;
+	//var zipMatch = searchInput.match(checkZip);
+	//var newZipMatch = "";
+	if (searchInput.length = 5 && searchInput == newZipMatch) {
+		var currentWeatherAPI = todayAPI + zipCode + searchInput + API;
+		var weatherAPI = weekAPI + zipCode + searchInput + API; 
 	}
 }*/
 
@@ -51,7 +56,7 @@ function getLocation() {
 		navigator.geolocation.getCurrentPosition(showPosition);
 	}
 	else {
-		myGeolocation.innerHTML = "Geolocation is not supported by this browser.";
+		myGeolocation.innerHTML = "Sorry, we could not find your location at the time.";
 	}
 }
 
@@ -62,9 +67,12 @@ function showPosition(position) {
 	var cityName = "q=";
 	var zipCode = "zip=";
 	var positionCoord = "lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
-	var API = "&APPID=aefa70f2536d1ba79bb2d9f090f4817b&units=imperial";
-	var currentWeatherAPI = todayAPI + positionCoord + API;
-	var weatherAPI = weekAPI + positionCoord + API;
+	var API = "&APPID=aefa70f2536d1ba79bb2d9f090f4817b";
+	var imperial = "&units=imperial";
+	var metric = "&units=metric";
+	var currentWeatherAPI = todayAPI + positionCoord + API + imperial;
+	//var currentWeatherAPI = todayAPI + cityName + "san antonio,us" + API;
+	var weatherAPI = weekAPI + positionCoord + API + imperial;
 	//today's weather
 	$.getJSON(currentWeatherAPI, function(todayData) {
 		//general info
@@ -93,6 +101,16 @@ function showPosition(position) {
 				case "Clouds":
 					weatherIcon.innerHTML = "<img src='" + nightCloudy + "' class='night'>";
 					break;
+				case "Mist":
+				case "Atmosphere":
+					weatherIcon.innerHTML = "<img src='" + atmosphere + "' class='night'>";
+					break;
+				case "Thunderstorm":
+					weatherIcon.innerHTML = "<img src='" + thunderstorm + "' class='night'>";
+					break;
+				case "Snow":
+					weatherIcon.innerHTML = "<img src='" + snow + "' class='night'>";
+					break;
 				default:
 					weatherIcon.innerHTML = "<img src='' class='night'>";
 			}
@@ -109,24 +127,18 @@ function showPosition(position) {
 				case "Clouds":
 					weatherIcon.innerHTML = "<img src='" + dayCloudy + "' class='day'>";
 					break;
-				default:
-					weatherIcon.innerHTML = "<img src='' class='day'>";
-			}
-		}
-		//both weather
-		else {
-			switch(todayWeather) {
+				case "Mist":
 				case "Atmosphere":
-					weatherIcon.innerHTML = "<img src='" + atmosphere + "' class='both'>";
+					weatherIcon.innerHTML = "<img src='" + atmosphere + "' class='day'>";
 					break;
 				case "Thunderstorm":
-					weatherIcon.innerHTML = "<img src='" + thunderstorm + "' class='both'>";
+					weatherIcon.innerHTML = "<img src='" + thunderstorm + "' class='day'>";
 					break;
 				case "Snow":
-					weatherIcon.innerHTML = "<img src='" + snow + "' class='both'>";
+					weatherIcon.innerHTML = "<img src='" + snow + "' class='day'>";
 					break;
 				default:
-					weatherIcon.innerHTML = "<img src='' class='both'>";
+					weatherIcon.innerHTML = "<img src='' class='day'>";
 			}
 		}
 		console.log(todayData);
@@ -135,68 +147,78 @@ function showPosition(position) {
 	//day by day weather
 	$.getJSON(weatherAPI, function(weekData) {
 		console.log(weekData);
-		getWeekDays();
 
-		function getWeekDays() {
-			//weekDay();
-			$(".week").html("");
-			for (var y = 0; y < weekData.list.length; y++) {
-				var checkDate = new Date(weekData.list[y].dt * 1000);
-				var dateString = checkDate.toString();
-				//var timeString = dateString.substring(16, 18);
-				//console.log(test);
-				if (dateString.substring(16, 18) == 12) {
-					var dayListShort = dateString.substring(0,3);
-					var checkWeekWeather = weekData.list[y].weather["0"].main;
-					switch (checkWeekWeather) {
-						case "Rain":
-							var weekIcon = "<img src='" + dayRain + "' class='weekly'>";
-							break;
-						case "Clear":
-							var weekIcon = "<img src='" + dayClear + "' class='weekly'>";
-							break;
-						case "Clouds":
-							var weekIcon = "<img src='" + dayCloudy + "' class='weekly'>";
-							break;
-						case "Atmosphere":
-							var weekIcon = "<img src='" + atmosphere + "' class='weekly'>";
-							break;
-						case "Thunderstorm":
-							var weekIcon = "<img src='" + thunderstorm + "' class='weekly'>";
-							break;
-						case "Snow":
-							var weekIcon = "<img src='" + snow + "' class='weekly'>";
-							break;
-						default:
-							var weekIcon = "<img src='' class='weekly'>";
+		var mediaTest = window.matchMedia("(max-width:775px)");
+		mediaTest.addListener(resize);
+		resize(mediaTest);
+
+		function resize(mediaTest) {
+			getWeekDays();
+			function getWeekDays() {
+				$(".week").html("");
+				for (var y = 0; y < weekData.list.length; y++) {
+					var checkDate = new Date(weekData.list[y].dt * 1000);
+					var dateString = checkDate.toString();
+					if (dateString.substring(16, 18) == 12) {
+						var dailyTempF = Math.round(weekData.list[y].main.temp);
+						var checkWeekWeather = weekData.list[y].weather["0"].main;
+						switch (checkWeekWeather) {
+							case "Rain":
+							case "Drizzle":
+								var weekIcon = "<img src='" + dayRain + "' class='weekly'>";
+								break;
+							case "Clear":
+								var weekIcon = "<img src='" + dayClear + "' class='weekly'>";
+								break;
+							case "Clouds":
+								var weekIcon = "<img src='" + dayCloudy + "' class='weekly'>";
+								break;
+							case "Mist":
+							case "Atmosphere":
+								var weekIcon = "<img src='" + atmosphere + "' class='weekly'>";
+								break;
+							case "Thunderstorm":
+								var weekIcon = "<img src='" + thunderstorm + "' class='weekly'>";
+								break;
+							case "Snow":
+								var weekIcon = "<img src='" + snow + "' class='weekly'>";
+								break;
+							default:
+								var weekIcon = "<img src='' class='weekly'>";
+						}
+
+						var dayListShort = dateString.substring(0,3);
+						if (mediaTest.matches) {
+							var dayName = dayListShort;
+						} else {
+							switch (dayListShort) {
+								case "Sun":
+									var dayName = "Sunday";
+									break;
+								case "Mon":
+									var dayName = "Monday";
+									break;
+								case "Tue":
+									var dayName = "Tuesday";
+									break;
+								case "Wed":
+									var dayName = "Wednesday";
+									break;
+								case "Thu":
+									var dayName = "Thursday";
+									break;
+								case "Fri":
+									var dayName = "Friday";
+									break;
+								case "Sat":
+									var dayName = "Saturday";
+									break;
+								default:
+									var dayName = "";
+								}
+							}
+						$(".week").append("<div class='col'><h4 class='day-list'>" + dayName + "</h4>" + weekIcon + "<h4 class='weekly-temp'>" + dailyTempF + "&#176;</h4></div>");
 					}
-					switch (dayListShort) {
-						case "Sun":
-							var dayName = "Sunday";
-							break;
-						case "Mon":
-							var dayName = "Monday";
-							break;
-						case "Tue":
-							var dayName = "Tuesday";
-							break;
-						case "Wed":
-							var dayName = "Wednesday";
-							break;
-						case "Thu":
-							var dayName = "Thursday";
-							break;
-						case "Fri":
-							var dayName = "Friday";
-							break;
-						case "Sat":
-							var dayName = "Saturday";
-							break;
-						default:
-							var dayName = "";
-					}
-					var dailyTempF = Math.round(weekData.list[y].main.temp);
-					$(".week").append("<div class='col'><h4 class='day-list'>" + dayName + "</h4>" + weekIcon + "<h4 class='weekly-temp'>" + dailyTempF + "&#176;</h4></div>");
 				}
 			}
 		}
