@@ -57,8 +57,8 @@ function getLocation() {
 }
 
 function showPosition(position) {
-	var todayAPI = "http://api.openweathermap.org/data/2.5/weather?";
-	var weekAPI = "http://api.openweathermap.org/data/2.5/forecast?";
+	var todayAPI = "https://api.openweathermap.org/data/2.5/weather?";
+	var weekAPI = "https://api.openweathermap.org/data/2.5/forecast?";
 	var cityName = "q=";
 	var zipCode = "zip=";
 	var positionCoord = "lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
