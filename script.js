@@ -49,7 +49,6 @@ function runSearch(searchInput) {
 function getLocation() {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(showPosition);
-		todayDate();
 	}
 	else {
 		myGeolocation.innerHTML = "Geolocation is not supported by this browser.";
@@ -57,6 +56,7 @@ function getLocation() {
 }
 
 function showPosition(position) {
+	todayDate();
 	var todayAPI = "https://api.openweathermap.org/data/2.5/weather?";
 	var weekAPI = "https://api.openweathermap.org/data/2.5/forecast?";
 	var cityName = "q=";
