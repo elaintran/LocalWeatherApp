@@ -25,7 +25,6 @@ var snow = "images/snow.png";
 
 window.onload = function() {
 	getLocation();
-	todayDate();
 }
 
 /*form.addEventListener("submit", submitInput);
@@ -50,6 +49,7 @@ function runSearch(searchInput) {
 function getLocation() {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(showPosition);
+		todayDate();
 	}
 	else {
 		myGeolocation.innerHTML = "Geolocation is not supported by this browser.";
