@@ -26,6 +26,7 @@ window.onload = function() {
 	//getTime();
 	todayDate();
 	//weekDay();
+	//getDayNumber();
 }
 
 //gets geolocation
@@ -39,7 +40,7 @@ function getLocation() {
 }
 
 function showPosition(position) {
-	var weatherAPI = "http://api.openweathermap.org/data/2.5/forecast?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&APPID=aefa70f2536d1ba79bb2d9f090f4817b";
+	var weatherAPI = "http://api.openweathermap.org/data/2.5/forecast?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&APPID=aefa70f2536d1ba79bb2d9f090f4817b&units=imperial";
 	var currentWeatherAPI = "https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
 	//today's weather
 	$.getJSON(currentWeatherAPI, function(todayData) {
@@ -54,7 +55,7 @@ function showPosition(position) {
 		
 		//night weather
 		var todayWeather = todayData.weather["0"].main;
-		if (currentTime.getHours() >= 18 && currentTime.getHours() <= 6) {
+		if (currentTime.getHours() >= 18 || currentTime.getHours() < 6) {
 			switch (todayWeather) {
 				case "Rain":
 				case "Drizzle":
@@ -70,7 +71,7 @@ function showPosition(position) {
 					weatherIcon.innerHTML = "<img src='' class='night'>";
 			}
 		//day weather
-		} else if (currentTime.getHours() <= 18 && currentTime.getHours() >= 6) {
+		} else if (currentTime.getHours() < 18 && currentTime.getHours() >= 6) {
 			switch (todayWeather) {
 				case "Rain":
 				case "Drizzle":
@@ -87,19 +88,22 @@ function showPosition(position) {
 			}
 		}
 		//both weather
-		switch(todayWeather) {
-			case "Atmosphere":
-				weatherIcon.innerHTML = "<img src='" + atmosphere + "' class='both'>";
-				break;
-			case "Thunderstorm":
-				weatherIcon.innerHTML = "<img src='" + thunderstorm + "' class='both'>";
-				break;
-			case "Snow":
-				weatherIcon.innerHTML = "<img src='" + snow + "' class='both'>";
-				break;
-			default:
-				weatherIcon.innerHTML = "<img src='' class='both'>";
+		else {
+			switch(todayWeather) {
+				case "Atmosphere":
+					weatherIcon.innerHTML = "<img src='" + atmosphere + "' class='both'>";
+					break;
+				case "Thunderstorm":
+					weatherIcon.innerHTML = "<img src='" + thunderstorm + "' class='both'>";
+					break;
+				case "Snow":
+					weatherIcon.innerHTML = "<img src='" + snow + "' class='both'>";
+					break;
+				default:
+					weatherIcon.innerHTML = "<img src='' class='both'>";
+			}
 		}
+		console.log(todayData.weather["0"].main);
 		console.log(todayData);
 	});
 	
@@ -115,7 +119,12 @@ function showPosition(position) {
 			//weekDay();
 			$(".row").html("");
 			for (var y = 0; y < weekData.list.length; y++) {
-				if (weekData.list[y].dt_txt.substring(11) == "12:00:00") {
+				var checkDate = new Date(weekData.list[y].dt * 1000);
+				var dateString = checkDate.toString();
+				//var timeString = dateString.substring(16, 18);
+				//console.log(test);
+				if (dateString.substring(16, 18) == 12) {
+					var dayListShort = dateString.substring(0,4);
 					var checkWeekWeather = weekData.list[y].weather["0"].main;
 					switch (checkWeekWeather) {
 						case "Rain":
@@ -139,8 +148,9 @@ function showPosition(position) {
 						default:
 							var weekIcon = "<img src='' class='weekly'>";
 					}
-					var dailyTempF = Math.round(((weekData.list[y].main.temp) - 273.15) * 9 / 5 + 32);
-					$(".row").append("<div class='col day-" + y + "'>" + weekIcon + "<h3 class='weekly-temp'>" + dailyTempF + "&#176;</h3></div>");
+					var dailyTempF = Math.round(weekData.list[y].main.temp);
+					//var dailyTempF = Math.round(((weekData.list[y].main.temp) - 273.15) * 9 / 5 + 32);
+					$(".row").append("<div class='col'><h4 class='day-list'>" + dayListShort + "</h4>" + weekIcon + "<h4 class='weekly-temp'>" + dailyTempF + "&#176;</h4></div>");
 					//console.log(upcomingDate);
 				}
 			}
@@ -153,36 +163,6 @@ var currentTime = new Date();
 var monthList = ["January", "February", "March", "April", "May", "June",
 				"July", "August", "September", "October", "November", "December"];
 var dayList = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-var dayListShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-/*function weekDay() {
-	var dateArray = [];
-	for (var z = 0; z < 4; z++) {
-		if (currentTime.getDay() !== z) {
-			dateArray.push(dayListShort[z]);
-		}
-		console.log(dateArray);
-	}
-}*/
-
-/*function weekDay() {
-	var dateArray = [];
-	var otherArray = [];
-	for (var z = 0; z < dayListShort.length; z++) {
-		if (currentTime.getDay() == z && z == 6) {
-
-			dateArray.push(dayListShort..);
-			//dateArray.push(dayListShort[z]);
-		}
-		else if (currentTime.getDay() == z) {
-		}
-		//console.log(dateArray);
-	}
-	for (var a = 0; a < 4; a++) {
-		var newDateArray = otherArray.push(dateArray[a]);
-	}
-	console.log(otherArray);
-}*/
 
 function todayDate() {
 	for (var x = 0; x < dayList.length; x++) {

@@ -30,9 +30,19 @@ h4 {
 
 .center {
 	margin: auto;
-	padding: 50px;
+	/*padding-top: 8%;*/
 	display: table-cell;
-	/*vertical-align: middle;*/
+	vertical-align: middle;
+}
+
+.today {
+	height: 70%;
+}
+
+.row {
+	height: 30%;
+	align-items: center;
+	background-color: rgba(255, 255, 255, 0.8);
 }
 
 .place {
@@ -83,18 +93,19 @@ ul {
 .row {
 	display: flex;
 	color: #2f456e;
+	margin: 0;
+	position: absolute;
+	width: 100%;
+	bottom: 0;
 }
 
 .col {
-	margin: 10px;
 	display: inline-block;
 	width: 100%;
 }
 
 .col {
 	padding: 10px;
-	background-color: rgba(255, 255, 255, 0.8);
-	border-radius: 10px;
 }
 
 .night, .day, .both {
@@ -102,7 +113,7 @@ ul {
 }
 
 .col .weekly {
-	width: 50px;
+	width: 40px;
 }
 
 .degree-container {
@@ -122,4 +133,9 @@ ul {
 .weather-icon {
 	display: flex;
 	align-items: center;
+}
+
+.day-list, .weekly-temp {
+	text-transform: uppercase;
+	font-weight: bold;
 }
