@@ -9,6 +9,8 @@ var wind = document.querySelector(".wind");
 var currentDate = document.querySelector(".current-date");
 var week = document.querySelector(".week");
 var weatherIcon = document.querySelector(".weather-icon");
+var form = document.querySelector(".search");
+var locationInput = document.querySelector(".location-input");
 
 //weather icons
 var nightRain = "images/night-rain.png";
@@ -23,11 +25,26 @@ var snow = "images/snow.png";
 
 window.onload = function() {
 	getLocation();
-	//getTime();
 	todayDate();
-	//weekDay();
-	//getDayNumber();
 }
+
+/*form.addEventListener("submit", submitInput);
+
+function submitInput(event) {
+	event.preventDefault;
+	var input = locationInput.value;
+	var searchLocation = input.trim();
+	if (searchLocation.length = 0) {
+		return false;
+	}
+}
+
+function runSearch(searchInput) {
+	//if searchInput has numbers - check for numbers
+	if (searchInput ) {
+		var inputAPI = todayAPI +  
+	}
+}*/
 
 //gets geolocation
 function getLocation() {
@@ -40,8 +57,14 @@ function getLocation() {
 }
 
 function showPosition(position) {
-	var weatherAPI = "http://api.openweathermap.org/data/2.5/forecast?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&APPID=aefa70f2536d1ba79bb2d9f090f4817b&units=imperial";
-	var currentWeatherAPI = "https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
+	var todayAPI = "http://api.openweathermap.org/data/2.5/weather?";
+	var weekAPI = "http://api.openweathermap.org/data/2.5/forecast?";
+	var cityName = "q=";
+	var zipCode = "zip=";
+	var positionCoord = "lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
+	var API = "&APPID=aefa70f2536d1ba79bb2d9f090f4817b&units=imperial";
+	var currentWeatherAPI = todayAPI + positionCoord + API;
+	var weatherAPI = weekAPI + positionCoord + API;
 	//today's weather
 	$.getJSON(currentWeatherAPI, function(todayData) {
 		//general info
@@ -50,8 +73,11 @@ function showPosition(position) {
 		//capitalize first letter of every word in description
 		var newWeatherDescription = weatherDescription.split(" ").map((eachWord) => eachWord.charAt(0).toUpperCase() + eachWord.slice(1)).join(" ");
 		description.innerHTML = newWeatherDescription;
-		fahrenheit.innerHTML = Math.round(todayData.main.temp * 9 / 5 + 32) + "<sup class='degree'>&#176;</sup>";
+		fahrenheit.innerHTML = Math.round(todayData.main.temp) + "<sup class='degree'>&#176;</sup>";
+		//fahrenheit.innerHTML = Math.round(todayData.main.temp * 9 / 5 + 32) + "<sup class='degree'>&#176;</sup>";
 		humidity.innerHTML = "Humidity: " + todayData.main.humidity + "%";
+		var windNumber = Math.round(todayData.wind.speed);
+		wind.innerHTML = "Wind: " + windNumber + " mph";
 		
 		//night weather
 		var todayWeather = todayData.weather["0"].main;
@@ -103,16 +129,12 @@ function showPosition(position) {
 					weatherIcon.innerHTML = "<img src='' class='both'>";
 			}
 		}
-		console.log(todayData.weather["0"].main);
 		console.log(todayData);
 	});
 	
 	//day by day weather
 	$.getJSON(weatherAPI, function(weekData) {
 		console.log(weekData);
-		var windNumber = Math.round(weekData.list["0"].wind.speed + 2.237);
-		wind.innerHTML = "Wind: " + windNumber + " mph";
-		
 		getWeekDays();
 
 		function getWeekDays() {
@@ -174,9 +196,7 @@ function showPosition(position) {
 							var dayName = "";
 					}
 					var dailyTempF = Math.round(weekData.list[y].main.temp);
-					//var dailyTempF = Math.round(((weekData.list[y].main.temp) - 273.15) * 9 / 5 + 32);
 					$(".week").append("<div class='col'><h4 class='day-list'>" + dayName + "</h4>" + weekIcon + "<h4 class='weekly-temp'>" + dailyTempF + "&#176;</h4></div>");
-					//console.log(upcomingDate);
 				}
 			}
 		}

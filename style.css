@@ -4,7 +4,7 @@ html, body {
 	font-family: "Open Sans", sans-serif;
 	font-weight: 100;
 	background-color: #7f9ee9;
-  	background-image: linear-gradient(to bottom left, #6080a6, #354b74); 
+  	background-image: linear-gradient(to top left, #6080a6, #354b74); 
 	color: white;
 	letter-spacing: 1px;
 }
@@ -141,6 +141,8 @@ ul {
 	border-color: transparent;
 	color: white;
 	padding: 0px 10px;
+	font-weight: bold;
+	letter-spacing: 1px;
 }
 
 .location-input::placeholder {
