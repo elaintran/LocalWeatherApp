@@ -267,3 +267,12 @@ function showPosition(position) {
 		time.innerHTML = newHours + ":" + currentTime.getMinutes() + "" + ampm;
 	}
 }*/
+
+checkAPI();
+
+function checkAPI() {
+	var testAPI = "https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/counties.json";
+	$.getJSON(testAPI, function(checkData) {
+		console.log(checkData);
+	});
+}
