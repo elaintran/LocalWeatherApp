@@ -23,9 +23,7 @@ var atmosphere = "images/atmosphere.png";
 var thunderstorm = "images/thunderstorm.png";
 var snow = "images/snow.png";
 
-window.onload = function() {
-	getLocation();
-}
+getLocation();
 
 //gets today's date
 var currentTime = new Date();
@@ -69,8 +67,9 @@ function submitInput(event) {
 
 function runSearch(searchInput) {
 	//if searchInput has 5 numbers
-	//var checkZip = /\d/g;
-	//var zipMatch = searchInput.match(checkZip);
+	var checkZip = /\d/g;
+	var zipMatch = searchInput.match(checkZip);
+	//remove commas
 	//var newZipMatch = "";
 	if (searchInput.length = 5 && searchInput == newZipMatch) {
 		var currentWeatherAPI = todayAPI + zipCode + searchInput + API;
