@@ -27,6 +27,34 @@ window.onload = function() {
 	getLocation();
 }
 
+//gets today's date
+var currentTime = new Date();
+var monthList = ["January", "February", "March", "April", "May", "June",
+				"July", "August", "September", "October", "November", "December"];
+var dayList = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
+function todayDate() {
+	for (var x = 0; x < dayList.length; x++) {
+		if (currentTime.getDay() == x) {
+			var dateString = dayList[x];
+		}
+	}
+	for (var i = 0; i < monthList.length; i++) {
+		if (currentTime.getMonth() == i) {
+			dateString += ", " + monthList[i] + " " + currentTime.getDate() + ", " + currentTime.getFullYear();
+			currentDate.innerHTML = dateString;
+		}
+	}
+}
+
+var todayAPI = "https://api.openweathermap.org/data/2.5/weather?";
+var weekAPI = "https://api.openweathermap.org/data/2.5/forecast?";
+var cityName = "q=";
+var zipCode = "zip=";
+var API = "&APPID=aefa70f2536d1ba79bb2d9f090f4817b";
+var imperial = "&units=imperial";
+var metric = "&units=metric";
+
 /*form.addEventListener("submit", submitInput);
 
 function submitInput(event) {
@@ -62,14 +90,7 @@ function getLocation() {
 
 function showPosition(position) {
 	todayDate();
-	var todayAPI = "https://api.openweathermap.org/data/2.5/weather?";
-	var weekAPI = "https://api.openweathermap.org/data/2.5/forecast?";
-	var cityName = "q=";
-	var zipCode = "zip=";
 	var positionCoord = "lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
-	var API = "&APPID=aefa70f2536d1ba79bb2d9f090f4817b";
-	var imperial = "&units=imperial";
-	var metric = "&units=metric";
 	var currentWeatherAPI = todayAPI + positionCoord + API + imperial;
 	//var currentWeatherAPI = todayAPI + cityName + "san antonio,us" + API;
 	var weatherAPI = weekAPI + positionCoord + API + imperial;
@@ -223,26 +244,6 @@ function showPosition(position) {
 			}
 		}
 	});
-}
-
-var currentTime = new Date();
-
-var monthList = ["January", "February", "March", "April", "May", "June",
-				"July", "August", "September", "October", "November", "December"];
-var dayList = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-
-function todayDate() {
-	for (var x = 0; x < dayList.length; x++) {
-		if (currentTime.getDay() == x) {
-			var dateString = dayList[x];
-		}
-	}
-	for (var i = 0; i < monthList.length; i++) {
-		if (currentTime.getMonth() == i) {
-			dateString += ", " + monthList[i] + " " + currentTime.getDate() + ", " + currentTime.getFullYear();
-			currentDate.innerHTML = dateString;
-		}
-	}
 }
 
 //gets current time
