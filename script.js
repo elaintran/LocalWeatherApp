@@ -11,6 +11,8 @@ var week = document.querySelector(".week");
 var weatherIcon = document.querySelector(".weather-icon");
 var form = document.querySelector(".search");
 var locationInput = document.querySelector(".location-input");
+var toggle = document.querySelector(".toggle");
+var label = document.querySelector("label");
 
 //weather icons
 var nightRain = "images/night-rain.png";
@@ -87,11 +89,26 @@ function getLocation() {
 	}
 }
 
+var tempF;
+var tempC;
+var temperature = true;
+
+$("label").click(function() {
+	if (temperature) {
+		fahrenheit.innerHTML = tempC;
+		temperature = false;
+	} else {
+		fahrenheit.innerHTML = tempF;
+		temperature = true;
+	}
+	//temperature = !temperature;
+});
+
 function showPosition(position) {
+	toggle.style.display = "flex";
 	todayDate();
 	var positionCoord = "lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
 	var currentWeatherAPI = todayAPI + positionCoord + API + imperial;
-	//var currentWeatherAPI = todayAPI + cityName + "san antonio,us" + API;
 	var weatherAPI = weekAPI + positionCoord + API + imperial;
 	//today's weather
 	$.getJSON(currentWeatherAPI, function(todayData) {
@@ -106,6 +123,24 @@ function showPosition(position) {
 		humidity.innerHTML = "Humidity: " + todayData.main.humidity + "%";
 		var windNumber = Math.round(todayData.wind.speed);
 		wind.innerHTML = "Wind: " + windNumber + " mph";
+
+		tempF = Math.round(todayData.main.temp) + "<sup class='degree'>&#176;</sup>";
+		tempC = Math.round(5 / 9 * (todayData.main.temp - 32)) + "<sup class='degree'>&#176;</sup>";
+
+		/*toggle.addEventListener("click", function(event) {
+			//event.preventDefault;
+			let temp = true;
+			var tempF = Math.round(todayData.main.temp) + "<sup class='degree'>&#176;</sup>";
+			var tempC = Math.round(5 / 9 * (todayData.main.temp - 32)) + "<sup class='degree'>&#176;</sup>";
+			
+			if (temp) {
+				fahrenheit.innerHTML =  tempC;
+				temp = false;
+			}
+			else {
+				fahrenheit.innerHTML = tempF;
+			}
+		});*/
 		
 		//night weather
 		var todayWeather = todayData.weather["0"].main;
@@ -268,11 +303,11 @@ function showPosition(position) {
 	}
 }*/
 
-checkAPI();
+/*checkAPI();
 
 function checkAPI() {
 	var testAPI = "https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/counties.json";
 	$.getJSON(testAPI, function(checkData) {
 		console.log(checkData);
 	});
-}
+}*/
