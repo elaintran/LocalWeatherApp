@@ -12,7 +12,6 @@ var weatherIcon = document.querySelector(".weather-icon");
 var form = document.querySelector(".search");
 var locationInput = document.querySelector(".location-input");
 var toggle = document.querySelector(".toggle");
-var label = document.querySelector("label");
 
 //weather icons
 var nightRain = "images/night-rain.png";
@@ -91,18 +90,28 @@ function getLocation() {
 
 var tempF;
 var tempC;
+var dailyTempF;
+var dailyTempC;
+var dailyTemp;
+var weeklyTemp;
 var temperature = true;
+//Math.round(5 / 9 * ((weeklyTemp.innerText.substring(0, (weeklyTemp.innerText.length-1))) - 32))
 
-$("label").click(function() {
+function changeDegree() {
 	if (temperature) {
 		fahrenheit.innerHTML = tempC;
+		for (var z = 0; z < weeklyTemp.length; z++) {
+			weeklyTemp[z].innerHTML = Math.round(5 / 9 * ((weeklyTemp[z].innerText.substring(0, (weeklyTemp[z].innerText.length-1))) - 32)) + "<sup class='degree'>&#176;</sup>";
+		}
 		temperature = false;
 	} else {
 		fahrenheit.innerHTML = tempF;
+		for (var z = 0; z < weeklyTemp.length; z++) {
+			weeklyTemp[z].innerHTML = Math.round((weeklyTemp[z].innerText.substring(0, (weeklyTemp[z].innerText.length-1))) * 9 / 5 + 32) + "<sup class='degree'>&#176;</sup>";
+		}
 		temperature = true;
 	}
-	//temperature = !temperature;
-});
+}
 
 function showPosition(position) {
 	toggle.style.display = "flex";
@@ -127,21 +136,6 @@ function showPosition(position) {
 		tempF = Math.round(todayData.main.temp) + "<sup class='degree'>&#176;</sup>";
 		tempC = Math.round(5 / 9 * (todayData.main.temp - 32)) + "<sup class='degree'>&#176;</sup>";
 
-		/*toggle.addEventListener("click", function(event) {
-			//event.preventDefault;
-			let temp = true;
-			var tempF = Math.round(todayData.main.temp) + "<sup class='degree'>&#176;</sup>";
-			var tempC = Math.round(5 / 9 * (todayData.main.temp - 32)) + "<sup class='degree'>&#176;</sup>";
-			
-			if (temp) {
-				fahrenheit.innerHTML =  tempC;
-				temp = false;
-			}
-			else {
-				fahrenheit.innerHTML = tempF;
-			}
-		});*/
-		
 		//night weather
 		var todayWeather = todayData.weather["0"].main;
 		if (currentTime.getHours() >= 18 || currentTime.getHours() < 6) {
@@ -215,7 +209,14 @@ function showPosition(position) {
 					var checkDate = new Date(weekData.list[y].dt * 1000);
 					var dateString = checkDate.toString();
 					if (dateString.substring(16, 18) == 12) {
-						var dailyTempF = Math.round(weekData.list[y].main.temp);
+						dailyTempF = Math.round(weekData.list[y].main.temp);
+						console.log(dailyTempF);
+						dailyTempC = Math.round(5 / 9 * ((weekData.list[y].main.temp) - 32));
+						if (temperature) {
+							dailyTemp = dailyTempF;
+						} else {
+							dailyTemp = dailyTempC;
+						}
 						var checkWeekWeather = weekData.list[y].weather["0"].main;
 						switch (checkWeekWeather) {
 							case "Rain":
@@ -272,7 +273,8 @@ function showPosition(position) {
 									var dayName = "";
 								}
 							}
-						$(".week").append("<div class='col'><h4 class='day-list'>" + dayName + "</h4>" + weekIcon + "<h4 class='weekly-temp'>" + dailyTempF + "&#176;</h4></div>");
+						$(".week").append("<div class='col'><h4 class='day-list'>" + dayName + "</h4>" + weekIcon + "<h4 class='weekly-temp'>" + dailyTemp + "&#176;</h4></div>");
+						weeklyTemp = document.querySelectorAll(".weekly-temp");
 					}
 				}
 			}
@@ -303,11 +305,3 @@ function showPosition(position) {
 	}
 }*/
 
-/*checkAPI();
-
-function checkAPI() {
-	var testAPI = "https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/counties.json";
-	$.getJSON(testAPI, function(checkData) {
-		console.log(checkData);
-	});
-}*/
