@@ -95,19 +95,19 @@ var dailyTempC;
 var dailyTemp;
 var weeklyTemp;
 var temperature = true;
-//Math.round(5 / 9 * ((weeklyTemp.innerText.substring(0, (weeklyTemp.innerText.length-1))) - 32))
+//weeklyTemp[z].innerText.length-1 removes degree sign for math
 
 function changeDegree() {
 	if (temperature) {
 		fahrenheit.innerHTML = tempC;
 		for (var z = 0; z < weeklyTemp.length; z++) {
-			weeklyTemp[z].innerHTML = Math.round(5 / 9 * ((weeklyTemp[z].innerText.substring(0, (weeklyTemp[z].innerText.length-1))) - 32)) + "<sup class='degree'>&#176;</sup>";
+			weeklyTemp[z].innerHTML = Math.round(5 / 9 * ((weeklyTemp[z].innerText.substring(0, (weeklyTemp[z].innerText.length-1))) - 32)) + "&#176;";
 		}
 		temperature = false;
 	} else {
 		fahrenheit.innerHTML = tempF;
 		for (var z = 0; z < weeklyTemp.length; z++) {
-			weeklyTemp[z].innerHTML = Math.round((weeklyTemp[z].innerText.substring(0, (weeklyTemp[z].innerText.length-1))) * 9 / 5 + 32) + "<sup class='degree'>&#176;</sup>";
+			weeklyTemp[z].innerHTML = Math.round((weeklyTemp[z].innerText.substring(0, (weeklyTemp[z].innerText.length-1))) * 9 / 5 + 32) + "&#176;";
 		}
 		temperature = true;
 	}
@@ -152,6 +152,7 @@ function showPosition(position) {
 					break;
 				case "Mist":
 				case "Atmosphere":
+				case "Haze":
 					weatherIcon.innerHTML = "<img src='" + atmosphere + "' class='night'>";
 					break;
 				case "Thunderstorm":
@@ -178,6 +179,7 @@ function showPosition(position) {
 					break;
 				case "Mist":
 				case "Atmosphere":
+				case "Haze":
 					weatherIcon.innerHTML = "<img src='" + atmosphere + "' class='day'>";
 					break;
 				case "Thunderstorm":
@@ -231,6 +233,7 @@ function showPosition(position) {
 								break;
 							case "Mist":
 							case "Atmosphere":
+							case "Haze":
 								var weekIcon = "<img src='" + atmosphere + "' class='weekly'>";
 								break;
 							case "Thunderstorm":
