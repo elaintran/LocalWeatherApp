@@ -1,0 +1,24 @@
+{
+  "name": "localweatherapp",
+  "version": "1.0.0",
+  "description": "Local Weather App for freeCodeCamp's Take Home Project",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elaintran/LocalWeatherApp.git"
+  },
+  "author": "elain tran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elaintran/LocalWeatherApp/issues"
+  },
+  "homepage": "https://github.com/elaintran/LocalWeatherApp#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4"
+  }
+}

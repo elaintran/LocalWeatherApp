@@ -85,14 +85,6 @@ function getLocation() {
 	}
 }
 
-/*function error() {
-	if (place.textContent === "")  {
-		locationError.textContent = "Sorry, we could not find your location at the time.";
-	}
-}
-
-error();*/
-
 function showError(error) {
 	switch(error.code) {
 		case error.PERMISSION_DENIED:

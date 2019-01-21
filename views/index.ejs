@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Local Weather App</title>
+
+  	<!--Metadata-->
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!--jQuery-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+	<!-- Bootstrap Core CSS -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+
+	<!-- CSS -->
+  	<link rel="stylesheet" href="css/style.css">
+  	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300|Roboto:100,300" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+
+</head>
+
+<body>
+
+<!--Local Weather App-->
+<div class="test">
+</div>
+
+<div class="search-bar">
+	<form class="search">
+		<div class="search-container">
+			<i class="fa fa-search"></i><input type="text" class="location-input" placeholder="City, Country Code or Zip Code">
+		</div>
+	</form>
+</div>
+
+<div class="toggle slide">
+	<input id="degree-toggle" type="checkbox" />
+	<label for="degree-toggle" onClick="changeDegree()">
+		<div class="card slide"></div>    
+	</label>
+</div>
+
+<div class="weather-container">
+	<div class="center">
+		<div class="today">
+			<h3 class="place"></h3>
+			<h4 class="current-date"></h4>
+			<div class="degree-container">
+				<div class="weather-icon"></div>
+				<h1 class="fahrenheit"></h1>
+			</div>
+			<h3 class="description"></h3>
+			<h4 class="humidity"></h4>
+			<h4 class="wind"></h4>
+			<!--<h4 class="time"></h4>-->
+		</div>
+		<div class="row">
+			<div class="week"></div>
+		</div>
+	</div>
+	<div class="error"></div>
+</div>
+
+
+
+
+
+<!--Javascript-->
+<script type="text/javascript" src="script.js"></script>
+
+</body>
+</html>
