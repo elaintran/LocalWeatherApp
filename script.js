@@ -1,4 +1,3 @@
-var myGeolocation = document.querySelector(".geolocation");
 var place = document.querySelector(".place");
 var celsius = document.querySelector(".celsius");
 var fahrenheit = document.querySelector(".fahrenheit");
@@ -12,6 +11,7 @@ var weatherIcon = document.querySelector(".weather-icon");
 var form = document.querySelector(".search");
 var locationInput = document.querySelector(".location-input");
 var toggle = document.querySelector(".toggle");
+var locationError = document.querySelector(".error");
 
 //weather icons
 var nightRain = "images/night-rain.png";
@@ -81,11 +81,33 @@ function runSearch(searchInput) {
 //gets geolocation
 function getLocation() {
 	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(showPosition);
+		navigator.geolocation.getCurrentPosition(showPosition, showError);
 	}
-	else {
-		myGeolocation.innerHTML = "Sorry, we could not find your location at the time.";
+}
+
+/*function error() {
+	if (place.textContent === "")  {
+		locationError.textContent = "Sorry, we could not find your location at the time.";
 	}
+}
+
+error();*/
+
+function showError(error) {
+	switch(error.code) {
+		case error.PERMISSION_DENIED:
+			locationError.innerHTML = "User denied the request for Geolocation."
+			break;
+		case error.POSITION_UNAVAILABLE:
+			locationError.innerHTML = "Location information is unavailable."
+			break;
+		case error.TIMEOUT:
+			locationError.innerHTML = "The request to get user location timed out."
+			break;
+		case error.UNKNOWN_ERROR:
+			locationError.innerHTML = "An unknown error occurred."
+			break;
+  	}
 }
 
 var tempF;
@@ -307,4 +329,3 @@ function showPosition(position) {
 		time.innerHTML = newHours + ":" + currentTime.getMinutes() + "" + ampm;
 	}
 }*/
-
