@@ -41,7 +41,7 @@ function todayDate() {
 	for (var i = 0; i < monthList.length; i++) {
 		if (currentTime.getMonth() == i) {
 			dateString += ", " + monthList[i] + " " + currentTime.getDate() + ", " + currentTime.getFullYear();
-			currentDate.innerHTML = dateString;
+			currentDate.textContent = dateString;
 		}
 	}
 }
@@ -54,19 +54,19 @@ var API = "&APPID=aefa70f2536d1ba79bb2d9f090f4817b";
 var imperial = "&units=imperial";
 var metric = "&units=metric";
 
-/*form.addEventListener("submit", submitInput);
+form.addEventListener("submit", submitInput);
 
 function submitInput(event) {
-	event.preventDefault;
-	var input = locationInput.value;
-	var searchLocation = input.trim();
-	if (searchLocation.length = 0) {
+	event.preventDefault();
+	//removes white space from inbetween
+	var input = locationInput.value.replace(/\s/g, '');
+	if (input.length = 0) {
 		return false;
 	}
-	runSearch(searchLocation);
+	//runSearch(searchLocation);
 }
 
-function runSearch(searchInput) {
+/*function runSearch(searchInput) {
 	//if searchInput has 5 numbers
 	var checkZip = /\d/g;
 	var zipMatch = searchInput.match(checkZip);
@@ -88,16 +88,16 @@ function getLocation() {
 function showError(error) {
 	switch(error.code) {
 		case error.PERMISSION_DENIED:
-			locationError.innerHTML = "User denied the request for Geolocation."
+			locationError.textContent = "User denied the request for Geolocation."
 			break;
 		case error.POSITION_UNAVAILABLE:
-			locationError.innerHTML = "Location information is unavailable."
+			locationError.textContent = "Location information is unavailable."
 			break;
 		case error.TIMEOUT:
-			locationError.innerHTML = "The request to get user location timed out."
+			locationError.textContent = "The request to get user location timed out."
 			break;
 		case error.UNKNOWN_ERROR:
-			locationError.innerHTML = "An unknown error occurred."
+			locationError.textContent = "An unknown error occurred."
 			break;
   	}
 }
