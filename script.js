@@ -55,11 +55,12 @@ var imperial = "&units=imperial";
 var metric = "&units=metric";
 
 form.addEventListener("submit", submitInput);
+var input;
 
 function submitInput(event) {
 	event.preventDefault();
 	//removes white space from inbetween
-	var input = locationInput.value.replace(/\s/g, '');
+	input = locationInput.value.replace(/\s/g, '');
 	if (input.length = 0) {
 		return false;
 	}
@@ -206,7 +207,7 @@ function showPosition(position) {
 					weatherIcon.innerHTML = "<img src='' class='day'>";
 			}
 		}
-		console.log(todayData);
+		//console.log(todayData);
 	});
 	
 	//day by day weather
@@ -223,11 +224,11 @@ function showPosition(position) {
 				$(".week").html("");
 				for (var y = 0; y < weekData.list.length; y++) {
 					var checkDate = new Date(weekData.list[y].dt * 1000);
-					var dateString = checkDate.toString();
-					if (dateString.substring(16, 18) == 12) {
-						dailyTempF = Math.round(weekData.list[y].main.temp);
-						console.log(dailyTempF);
-						dailyTempC = Math.round(5 / 9 * ((weekData.list[y].main.temp) - 32));
+					console.log(checkDate);
+					var dateString = checkDate.getHours();
+					if (dateString == 13) {
+						var dailyTempF = Math.round(weekData.list[y].main.temp);
+						var dailyTempC = Math.round(5 / 9 * ((weekData.list[y].main.temp) - 32));
 						if (temperature) {
 							dailyTemp = dailyTempF;
 						} else {
@@ -260,7 +261,7 @@ function showPosition(position) {
 								var weekIcon = "<img src='' class='weekly'>";
 						}
 
-						var dayListShort = dateString.substring(0,3);
+						var dayListShort = checkDate.toString().substring(0,3);
 						if (mediaTest.matches) {
 							var dayName = dayListShort;
 						} else {
